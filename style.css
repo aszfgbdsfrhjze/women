@@ -1,0 +1,116 @@
+*{ font-size: 30px;}
+body { 
+    font-family: Arial, sans-serif;
+     text-align: center;
+      padding: 20px; 
+      background-color: rgba(165, 42, 42, 0.644);
+   overflow: hidden;
+    }
+
+button { margin: 10px; padding: 10px; font-size: 16px; 
+min-width: 300px;
+}
+.absolute-1{
+    position: absolute;
+    top:10%;
+    left: 50%;
+    /* коррекция положения элемента */
+    transform: translate(-50%, -50%);
+}
+.absolute{
+    position: absolute;
+    top:40%;
+    left: 50%;
+    /* коррекция положения элемента */
+    transform: translate(-50%, -50%);
+}
+button{font-size: 30px; border: 1px dashed black;}
+button:nth-of-type(1){
+    background-color: rgba(255, 255, 0, 0.616);
+}
+button:nth-of-type(2){
+    background-color: rgba(216, 70, 34, 0.603);
+}
+button:nth-of-type(3){
+    background-color: rgba(24, 192, 142, 0.644);
+}
+button:nth-of-type(4){
+    background-color: rgba(164, 24, 192, 0.644);
+}
+.hidden{
+    display: none;
+}
+.hidden-p{
+    display: none;
+    animation-name: text;
+    animation-delay: -3s;
+    animation-duration: 0.1;
+}
+@keyframes text{
+    from{display: none;}
+    to{display: block;}
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: #f0f0f0;
+}
+
+.cvetok {
+    position: relative;
+    width: 300px;
+    height: 300px;
+
+    animation-name:  rotateFlower;
+    animation-duration: 10s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-timing-function: ease-in-out;
+    
+}
+
+.center {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #ffd700;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.lepestok {
+    position: absolute;
+    width: 80px;
+    height: 160px;
+    background: #ff69b4;
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    top: 77%;
+    left: 64%;
+    transform-origin: top left;
+    transform: translate(-50%, -50%);
+}
+
+.lepestok:nth-child(1) { transform: translate(-100%, -50%) rotate(0deg); background-color: rgb(192, 175, 19);}
+.lepestok:nth-child(2) { transform: translate(-50%, -75%) rotate(90deg); background-color: rgb(58, 38, 240);}
+.lepestok:nth-child(3) { transform: translate(0%, -50%) rotate(180deg); background-color: rgb(22, 233, 170);}
+.lepestok:nth-child(4) { transform: translate(-50%, -25%) rotate(270deg); background-color: rgb(197, 75, 126);}
+
+@keyframes rotateFlower {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(1080deg); }
+}
+.lepestok {
+    transition: all 0.5s ease-out;
+    cursor: pointer;
+  }
+  
+  body {
+    transition: background-color 0.5s ease-out;
+  }
+  

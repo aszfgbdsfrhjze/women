@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+  <title>Quiz App</title>
+
+
+
+</head>
+
+<body>
+  
+    
+    <section class="cvetok">
+        <div class="lepestok"></div>
+        <div class="lepestok"></div>
+        <div class="lepestok"></div>
+        <div class="lepestok"></div>
+        <div class="center"><p class="hidden-p">тест</p></div>
+    </section>
+<div class="absolute hidden">
+  <h1>Докажи что ты настоящая женщина</h1>
+
+  <div id="question"></div>
+
+  <div id="answers"></div>
+
+  <p id="timer">Time left: 10</p>
+
+  <p id="score"></p>
+
+
+</div>
+  <script>
+
+   const cvetochek = document.querySelector('.cvetok');
+    // Добавляем обработчики для лепестков
+document.querySelectorAll('.lepestok').forEach(lepestok => {
+  lepestok.addEventListener('click', function() {
+    // Получаем цвет лепестка
+    const color = getComputedStyle(this).backgroundColor;
+    
+    // Меняем фон body
+    document.body.style.backgroundColor = color;
+    
+    // Анимация исчезновения лепестка
+    cvetochek.style.display = 'none';
+    // Показываем скрытый блок
+    const quizBlock = document.querySelector('.absolute.hidden');
+    quizBlock.classList.remove('hidden');
+    
+    // Запускаем квиз
+    startQuiz();
+  });
+});
+
+// Модифицированная функция для старта квиза
+function startQuiz() {
+  // Сбрасываем состояние
+  currentQuestionIndex = 0;
+  score = 0;
+  timeLeft = 10;
+  clearInterval(timer);
+  
+  // Показываем первый вопрос
+  showQuestion();
+}
+
+// Обновляем CSS для скрытого блока
+const style = document.createElement('style');
+style.textContent = `
+  .hidden { 
+    display: none; 
+  }
+  .absolute {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+`;
+document.head.appendChild(style);
+
+    const questions = [
+
+      
+      { question: 'Тема:Цветы - Что символизируют тюльпаны? ', answers: ['любовь', 'надежда и забота ', 'дружбу ', ' уважение'], correct: 1 },      
+      { question: 'Тема:Цветы - Какой цветок называют «королевой ночи»? ', answers: ['лилия','орхидея','гардения','лотос' ], correct: 1 },      
+      { question: 'Тема:Цветы - Какой цветок символизирует скромность и невинность?', answers: [,'роза', 'ландыш', 'орхидея', 'подсолнух'], correct: 1 },      
+      { question: 'Тема:Цветы - Что означает красная роза? ', answers: ['дружбу','любовь','уважение','зависть'], correct: 1 },
+      { question: 'Тема:Цветы - Какой цветок ассоциируется с Японией и означает краткость жизни? ', answers: ['тюльпан','гвоздика','хризантема','ирис'], correct: 2 },
+      
+      { question: 'Тема:Винкс - Как зовут главную героиню, обладающую силой Огненного Дракона?', answers: ['блум','стелла','флора','рокси'], correct: 0 },
+      { question: 'Тема:Винкс - Какая фея отвечает за технологии и изобретения?', answers: ['флора','блум','лейла','текна'], correct: 3 },
+      { question: 'Тема:Винкс - Как называется школа, где учатся феи Винкс?', answers: ['алфея','колледж волшебства','облачная башня','красный фонтан'], correct: 1 },
+      { question: 'Тема:Винкс - Какая трансформация позволяет феям обрести крылья бабочек?', answers: ['энчантикс','чармикс','совикс','беливикс'], correct: 0 },
+      { question: 'Тема:Винкс - Какая способность у феи Стеллы?', answers: ['управление солнцем и луной',' контроль над водой','создание иллюзий','исцеление растений'], correct: 0 },
+
+      { question: 'Тема:Косметичка - Им рисуют стрелки, чтобы подчеркнуть взгляд. Часто бывает жидким или в виде карандаша.', answers: ['тушь','подводка','карандаш для бровей','тени'], correct: 1 },
+      { question: 'Тема:Косметичка - Используют для фиксации макияжа и устранения блеска.', answers: ['пудра','бальзам для губ','хайлайтер','праймер'], correct: 0 },
+      { question: 'Тема:Косметичка - Небольшая кисть с мягким ворсом для нанесения румян или хайлайтера.', answers: ['спонж','кисть для теней','щеточка для туши','кисть для лица'], correct: 3 },
+      { question: 'Тема:Косметичка - Средство с зеркальцем и плотной текстурой, чтобы скрыть несовершенства кожи.', answers: ['консилер','румяна','пудра','тональный крем'], correct: 3 },
+      { question: 'Тема:Косметичка - Им придают объём ресницам. Бывает водостойким и с эффектом наращивания.', answers: ['тушь','гель для бровей','карандаш для губ','лак для ногтей'], correct: 0 }
+      
+
+    ];
+
+
+    const PASSING_SCORE = 6;
+    let currentQuestionIndex = 0;
+
+    let score = 0;
+
+    let timer;
+
+    let timeLeft = 10;
+
+
+
+    function showQuestion() {
+
+      const currentQuestion = questions[currentQuestionIndex];
+
+      document.getElementById('question').innerText = currentQuestion.question;
+
+      const answersDiv = document.getElementById('answers');
+
+      answersDiv.innerHTML = '';
+
+
+
+      currentQuestion.answers.forEach((answer, index) => {
+
+        const button = document.createElement('button');
+
+        button.innerText = answer;
+
+        button.onclick = () => checkAnswer(index);
+
+        answersDiv.appendChild(button);
+
+      });
+
+
+
+      timeLeft = 10;
+
+      document.getElementById('timer').innerText = `Time left: ${timeLeft}`;
+
+      timer = setInterval(() => {
+
+        timeLeft--;
+
+        document.getElementById('timer').innerText = `Time left: ${timeLeft}`;
+
+        if (timeLeft === 0) {
+
+          clearInterval(timer);
+
+          nextQuestion();
+
+        }
+
+      }, 1000);
+
+    }
+
+
+
+    function checkAnswer(index) {
+
+      clearInterval(timer);
+
+      const currentQuestion = questions[currentQuestionIndex];
+
+      if (index === currentQuestion.correct) {
+
+        score++;
+
+      }
+
+      nextQuestion();
+
+    }
+
+
+
+    function nextQuestion() {
+
+      currentQuestionIndex++; 
+
+
+      if (currentQuestionIndex < questions.length) {
+
+        showQuestion();
+
+      } else {
+
+        document.getElementById('question').innerText = 'Quiz Over!';
+
+        document.getElementById('answers').innerHTML = '';
+
+        document.getElementById('timer').innerText = '';
+        if (score>PASSING_SCORE){
+        document.getElementById('score').innerText = `Ты прошла тест, у тебя  ${score} очков!`;
+    }else{
+        document.getElementById('score').innerText = `Ты не прошла тест, у тебя  ${score} очков!`;
+    }
+
+      }
+
+    }
+
+
+
+    showQuestion();
+
+  </script>
+
+</body>
+
+</html>
+
